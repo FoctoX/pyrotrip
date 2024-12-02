@@ -11,21 +11,21 @@ export const SelectTravelesList=[
         title:'A Couple',
         desc:'Two traveles in tandem',
         icon:'',
-        people:'1 Person'
+        people:'2 People'
     },
     {
         id:3,
         title:'Family',
         desc:'A group of fun loving adventure',
         icon:'',
-        people:'1 Person'
+        people:'3 to 5 People'
     },
     {
         id:4,
         title:'Friends',
         desc:'A bunch of thrill-seekes',
         icon:'',
-        people:'1 Person'
+        people:'6 - 10 People'
     },
 ]
 

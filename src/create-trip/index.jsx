@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input';
 import { SelectBudgetOptions, SelectTravelesList } from '@/constants/options';
 import React, { useEffect, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { toast } from 'sonner';
 
 function CreateTrip() {
     const [place, setPlace] = useState();
@@ -10,6 +11,10 @@ function CreateTrip() {
     const [formData, setFormData] = useState([]);
 
     const handleInputChange=(name, value)=>{
+        if (name=='noOfDays' && value>5)
+        {
+            return;
+        }
         setFormData({
             ...formData,
             [name]:value
@@ -19,6 +24,15 @@ function CreateTrip() {
     useEffect(()=>{
         console.log(formData)
     }, [formData])
+
+    const OnGenerateTrip=()=>
+    {
+        if (formData?.noOfDays>5 && !formData?.location || !formData?.budget || !formData.traveler)
+        {
+            toast("Please fill all details")
+            return;
+        }
+    }
 
     return (
         <div className='sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mt-10'>
@@ -48,7 +62,7 @@ function CreateTrip() {
                             <div key={index}
                                 onClick={()=>handleInputChange('budget', item.title)}
                             className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
-                            ${formData?.budget==item.title && 'shadow-lg'}`}>
+                            ${formData?.budget==item.title && 'shadow-lg border-black'}`}>
                                 <h2 className='text-4xl'>{item.icon}</h2>
                                 <h2 className='font-bold text-lg'>{item.title}</h2>
                                 <h2 className='text-sm text-gray-500'>{item.desc}</h2>
@@ -62,7 +76,8 @@ function CreateTrip() {
                         {SelectTravelesList.map((item, index) => (
                             <div key={index} 
                                 onClick={()=>handleInputChange('traveler', item.people)}
-                            className='p-4 border cursor-pointer rounded-lg hover:shadow-lg'>
+                                className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
+                                    ${formData?.traveler==item.people && 'shadow-lg border-black'}`}>
                                 <h2 className='text-4xl'>{item.icon}</h2>
                                 <h2 className='font-bold text-lg'>{item.title}</h2>
                                 <h2 className='text-sm text-gray-500'>{item.desc}</h2>
@@ -72,7 +87,7 @@ function CreateTrip() {
                 </div>
             </div>
             <div className='my-10 flex justify-end'>
-                <Button>Generate Trip</Button>
+                <Button onClick={OnGenerateTrip}>Generate Trip</Button>
             </div>
         </div>
     )
