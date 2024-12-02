@@ -1,13 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SelectBudgetOptions, SelectTravelesList } from '@/constants/options';
+import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList } from '@/constants/options';
+import { chatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
+import { Route, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function CreateTrip() {
+    const navigate = useNavigate();
     const [place, setPlace] = useState();
-
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState([]);
 
     const handleInputChange=(name, value)=>{
@@ -25,33 +28,66 @@ function CreateTrip() {
         console.log(formData)
     }, [formData])
 
-    const OnGenerateTrip=()=>
+    const OnGenerateTrip= async ()=>
     {
+
         if (formData?.noOfDays>5 && !formData?.location || !formData?.budget || !formData.traveler)
         {
             toast("Please fill all details")
             return;
         }
+
+        setLoading(true);
+
+        const FINAL_PROMPT = AI_PROMPT
+        .replace('{location}', formData?.location)
+        .replace('{totalDays}', formData?.noOfDays)
+        .replace('{traveler}', formData?.traveler)
+        .replace('{budget}', formData?.budget)
+        .replace('{totalDays}', formData?.noOfDays)
+
+        try {
+            const rawResult = await chatSession.sendMessage(FINAL_PROMPT);
+            const responseResult = rawResult.response.text();
+
+            let result;
+            if (typeof rawResult === "string") {
+                result = JSON.parse(responseResult.response.text());
+            } else {
+                result = responseResult;
+            }
+            localStorage.setItem("tripData", JSON.stringify(result));
+            navigate('/view-trip');
+
+        } catch (error) {
+            console.error("Error generating trip:", error);
+            toast("Failed to generate trip");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
-        <div className='sm:px-10 md:px-32 lg:px-56 xl:px-10 px-5 mt-10'>
+        <div className='sm:px-10 md:px-32 lg:px-56 xl:px-96 px-5 mt-10'>
             <h2 className='font-bold text-3xl'>Tell us your travel preferences 🏕️🌴</h2>
             <p className='mt-3 text-gray-500 text-xl'>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
             <div className='mt-20 flex flex-col gap-10'>
                 <div>
                     <h2 className='text-xl my-3 font-medium'>What is your destination of choice?</h2>
-                    {/* <GooglePlacesAutocomplete
-                        apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
-                        selectProps={{
-                            place,
-                            onChange:(v)=>{setPlace(v); handleInputChange('location', v)}
-                        }}
-                    /> */}
+                        <Input placeholder={''} 
+                            onChange = {(v)=>{setPlace(v.target.value); handleInputChange('location', v.target.value)}}
+                        />
+                        {/* <GooglePlacesAutocomplete
+                            apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
+                            selectProps={{
+                                place,
+                                onChange:(v)=>{setPlace(v); handleInputChange('location', v)}
+                            }}
+                        /> */}
                 </div>
                 <div>
                     <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
-                    <Input placeholder={'Ex.3'} type="number" 
+                    <Input type="number" 
                         onChange={(e)=>handleInputChange('noOfDays', e.target.value)}
                     />
                 </div>
@@ -87,7 +123,14 @@ function CreateTrip() {
                 </div>
             </div>
             <div className='my-10 flex justify-end'>
-                <Button onClick={OnGenerateTrip}>Generate Trip</Button>
+                <Button className="w-32"
+                onClick={OnGenerateTrip} disabled={loading}>
+                    {loading ? (
+                        <img src="/loading.gif" alt="Loading" className="w-6 h-6" />
+                    ) : (
+                        "Generate Trip"
+                    )}
+                </Button>
             </div>
         </div>
     )

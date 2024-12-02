@@ -7,6 +7,7 @@ import { RouterProvider } from 'react-router'
 import CreateTrip from './create-trip'
 import Header from './components/custom/Header'
 import { Toaster } from './components/ui/sonner'
+import ViewTrip from './view-trip'
 
 const router=createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router=createBrowserRouter([
   {
     path:"/create-trip",
     element:<CreateTrip/>
+  },
+  {
+    path:'/view-trip',
+    element:<ViewTrip/>
   }
 ])
 
