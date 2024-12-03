@@ -4,6 +4,7 @@ import Hotels from './components/Hotels';
 import PlacesToVisit from './components/PlacesToVisit';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import Header from '@/components/custom/Header';
 
 const ViewTrip = () => {
 
@@ -11,25 +12,27 @@ const ViewTrip = () => {
     const parsedData = JSON.parse(JSON.parse(storedTripData));
 
     return (
-        <div className='p-10 md:px-20 lg:px-44 xl:px-56'>
-            <Link to={'/'}><Button className="w-32">↰ Back</Button></Link>
+        <div>
+            <Header />
+            <div className='p-10 md:px-20 lg:px-44 xl:px-56'>
+                {/* Information Section */}
 
-            {/* Information Section */}
-            <br></br>
-            <InfoSection trip={parsedData}/>
-            
-            {/* Recommended Hotels */}
-            <Hotels trip={parsedData}/>
+                <InfoSection trip={parsedData} />
 
-            <br></br>
-            <hr></hr>
-            <br></br>
+                {/* Recommended Hotels */}
+                <Hotels trip={parsedData} />
 
-            {/* Daily Plans */}
-            <PlacesToVisit trip={parsedData}/>
+                <br></br>
+                <hr></hr>
+                <br></br>
 
-            {/* Footer */}
+                {/* Daily Plans */}
+                <PlacesToVisit trip={parsedData} />
+
+                {/* Footer */}
+            </div>
         </div>
+
     );
 
 

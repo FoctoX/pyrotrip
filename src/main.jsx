@@ -26,7 +26,6 @@ const router=createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Header/>
     <Toaster/>
     <RouterProvider router={router}/>
   </StrictMode>,
