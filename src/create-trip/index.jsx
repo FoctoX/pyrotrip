@@ -4,7 +4,7 @@ import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList } from '@/constants/
 import { chatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
-import { Route, useNavigate } from 'react-router-dom';
+import { Link, Route, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function CreateTrip() {
@@ -122,7 +122,9 @@ function CreateTrip() {
                     </div>
                 </div>
             </div>
-            <div className='my-10 flex justify-end'>
+            <div className='my-10 flex justify-between'>
+                <Link to={'/'}><Button className="w-32">↰ Back</Button></Link>
+
                 <Button className="w-32"
                 onClick={OnGenerateTrip} disabled={loading}>
                     {loading ? (

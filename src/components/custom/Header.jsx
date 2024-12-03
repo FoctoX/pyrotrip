@@ -1,9 +1,8 @@
 import React from 'react'
-import { Button } from '../ui/button'
 
 function Header() {
   return (
-    <div className='p-3 shadow-sm flex justify-between items-center px-5'>
+    <div className='w-full bg-white p-3 shadow-sm flex justify-between items-center px-5 sticky top-0'>
         <div className='flex items-center'>
             <img className='w-10 h-10' src='/logo.svg'/>
             <p className='font-extrabold text-xl'>PyroTrip</p>

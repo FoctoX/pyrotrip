@@ -8,8 +8,8 @@ function Hotels(trip) {
         <h2 className='font-bold text-xl mt-5'>Hotel Recommendations</h2>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5'>
             {trip.trip.hotels.map((hotel, index)=>(
-                <div className='hover:scale-105 transition-all cursor-pointer'>
-                    <Link to={'https://www.google.com/maps/?api=1&query='+hotel.hotelName +","+ hotel.hotelAddress} target='_blank'>
+                <div className='transition-all cursor-pointer'>
+                    <Link to={'https://www.google.com/maps/search/?api=1&query='+hotel.hotelName +","+ hotel.hotelAddress} target='_blank'>
                         <img src='/placeholder.jpeg' className='rounded-xl' />
                         <div className='my-2'>
                             <h2 className='font-medium'>{hotel.hotelName}</h2>
