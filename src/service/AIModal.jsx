@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-pro",
   });
-  
+
   const generationConfig = {
     temperature: 1,
     topP: 0.95,

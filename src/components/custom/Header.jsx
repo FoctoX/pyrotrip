@@ -8,9 +8,6 @@ function Header() {
             <img className='w-10 h-10' src='/logo.svg'/>
             <p className='font-extrabold text-xl'>PyroTrip</p>
         </div>
-        <div>
-            <Button>Sign In</Button>
-        </div>
     </div>
   )
 }
