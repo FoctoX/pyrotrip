@@ -1,7 +1,7 @@
 import Header from '@/components/custom/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList } from '@/constants/options';
+import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList, SelectVacationPlace } from '@/constants/options';
 import { chatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
@@ -43,6 +43,7 @@ function CreateTrip() {
             .replace('{traveler}', formData?.traveler)
             .replace('{budget}', formData?.budget)
             .replace('{totalDays}', formData?.noOfDays)
+            .replace('{vacationPlace}', formData?.place)
 
         try {
             const rawResult = await chatSession.sendMessage(FINAL_PROMPT);
@@ -67,14 +68,14 @@ function CreateTrip() {
 
     return (
         <div>
-            <Header/>
+            <Header />
             <div className='sm:px-10 md:px-32 lg:px-56 xl:px-96 px-5 mt-10'>
                 <h2 className='font-bold text-3xl'>Tell us your travel preferences 🏕️🌴</h2>
                 <p className='mt-3 text-gray-500 text-xl'>Just provide some basic information, and our trip planner will generate a customized itinerary based on your preferences.</p>
                 <div className='mt-20 flex flex-col gap-10'>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>What is your destination of choice?</h2>
-                        <Input placeholder={''}
+                        <Input placeholder={'Ex: Indonesia, Malang'}
                             onChange={(v) => { setPlace(v.target.value); handleInputChange('location', v.target.value) }}
                         />
                         {/* <GooglePlacesAutocomplete
@@ -87,8 +88,17 @@ function CreateTrip() {
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
-                        <Input type="number"
-                            onChange={(e) => handleInputChange('noOfDays', e.target.value)}
+                        <Input max="5" placeholder="Ex: 3 (Max 5)" type="number"
+                            onChange={(e) => {
+                                let value = Number(e.target.value);
+
+                                if (value > 5) value = 5;
+
+                                if (value < 0) value = 0;
+
+                                handleInputChange('noOfDays', value);
+                            }}
+                            value={formData?.noOfDays || ''}
                         />
                     </div>
                     <div>
@@ -121,6 +131,33 @@ function CreateTrip() {
                             ))}
                         </div>
                     </div>
+                    <div>
+                        <h2 className='text-xl my-3 font-medium'>What do you prefer about vacation places?</h2>
+                        <div className='grid grid-cols-3 gap-5 mt-5'>
+                            {SelectVacationPlace.map((item, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => {
+                                        const currentSelection = formData?.place?.split(', ').filter(Boolean) || [];
+                                        if (currentSelection.includes(item.title)) {
+                                            // Remove if already selected
+                                            const updatedSelection = currentSelection.filter((place) => place !== item.title);
+                                            handleInputChange('place', updatedSelection.join(', '));
+                                        } else {
+                                            // Add new selection
+                                            const updatedSelection = [...currentSelection, item.title];
+                                            handleInputChange('place', updatedSelection.join(', '));
+                                        }
+                                    }}
+                                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.place?.includes(item.title) ? 'shadow-lg border-black' : ''}`}>
+                                    <h2 className='text-4xl'>{item.icon}</h2>
+                                    <h2 className='font-bold text-lg'>{item.title}</h2>
+                                    <h2 className='text-sm text-gray-500'>{item.desc}</h2>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                 </div>
                 <div className='my-10 flex justify-end'>
                     <Button className="w-32"

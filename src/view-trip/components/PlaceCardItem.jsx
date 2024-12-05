@@ -9,9 +9,10 @@ function PlaceCardItem(place) {
             <img src="/placeholder.jpeg" 
             className='w-[130px] h-[130px] rounded-xl'/>
             <div>
-                <h2 className='font-bold text-lg'>{place.place.placeName}</h2>
+                <h2 className='font-bold text-lg text-black'>{place.place.placeName}</h2>
                 <p className='text-sm text-gray-400'>{place.place.placeDetails}</p>
-                <h2 className='mt-2'>🚌 {place.place.timeTravel}</h2>
+                <h2 className='mt-2 text-black'>💲 {place.place.ticketPricing}</h2>
+                <h2 className='mt-2 text-black'>⭐ {place.place.rating}/5</h2>
             </div>
         </div>
     </Link>
