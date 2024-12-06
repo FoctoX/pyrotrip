@@ -107,8 +107,8 @@ function CreateTrip() {
                             {SelectBudgetOptions.map((item, index) => (
                                 <div key={index}
                                     onClick={() => handleInputChange('budget', item.title)}
-                                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
-                            ${formData?.budget == item.title && 'shadow-lg border-black'}`}>
+                                    className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
+                            ${formData?.budget == item.title && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
                                     <h2 className='font-bold text-lg'>{item.title}</h2>
                                     <h2 className='text-sm text-gray-500'>{item.desc}</h2>
@@ -122,8 +122,8 @@ function CreateTrip() {
                             {SelectTravelesList.map((item, index) => (
                                 <div key={index}
                                     onClick={() => handleInputChange('traveler', item.people)}
-                                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
-                                    ${formData?.traveler == item.people && 'shadow-lg border-black'}`}>
+                                    className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
+                                    ${formData?.traveler == item.people && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
                                     <h2 className='font-bold text-lg'>{item.title}</h2>
                                     <h2 className='text-sm text-gray-500'>{item.desc}</h2>
@@ -149,7 +149,7 @@ function CreateTrip() {
                                             handleInputChange('place', updatedSelection.join(', '));
                                         }
                                     }}
-                                    className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg ${formData?.place?.includes(item.title) ? 'shadow-lg border-black' : ''}`}>
+                                    className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105 ${formData?.place?.includes(item.title) ? 'shadow-lg shadow-gray-500 border-black dark:border-white' : ''}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
                                     <h2 className='font-bold text-lg'>{item.title}</h2>
                                     <h2 className='text-sm text-gray-500'>{item.desc}</h2>
