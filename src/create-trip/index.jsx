@@ -94,31 +94,53 @@ function CreateTrip() {
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>How much is your budget?</h2>
-                        <div className='grid grid-cols-3 gap-5 mt-5'>
+                        <div className="grid grid-cols-3 gap-5 mt-5">
                             {SelectBudgetOptions.map((item) => (
-                                <div key={item.id}
+                                <div
+                                    key={item.id}
+                                    role="button"
+                                    tabIndex={0}
                                     onClick={() => handleInputChange('budget', item.title)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault(); // Prevent space from scrolling
+                                            handleInputChange('budget', item.title);
+                                        }
+                                    }}
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
-                            ${formData?.budget == item.title && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
-                                    <h2 className='text-4xl'>{item.icon}</h2>
-                                    <h2 className='font-bold text-lg'>{item.title}</h2>
-                                    <h2 className='text-sm text-gray-500'>{item.desc}</h2>
+              ${formData?.budget === item.title && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}
+                                >
+                                    <h2 className="text-4xl">{item.icon}</h2>
+                                    <h2 className="font-bold text-lg">{item.title}</h2>
+                                    <h2 className="text-sm text-gray-500">{item.desc}</h2>
                                 </div>
                             ))}
                         </div>
+
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
                         <div className='grid grid-cols-3 gap-5 mt-5'>
                             {SelectTravelesList.map((item) => (
-                                <div key={item.id}
+                                <div
+                                    key={item.id}
+                                    role="button"
+                                    tabIndex={0}
                                     onClick={() => handleInputChange('traveler', item.people)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            handleInputChange('traveler', item.people);
+                                        }
+                                    }}
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
-                                    ${formData?.traveler == item.people && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
-                                    <h2 className='text-4xl'>{item.icon}</h2>
-                                    <h2 className='font-bold text-lg'>{item.title}</h2>
-                                    <h2 className='text-sm text-gray-500'>{item.desc}</h2>
+      ${formData?.traveler === item.people && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}
+                                >
+                                    <h2 className="text-4xl">{item.icon}</h2>
+                                    <h2 className="font-bold text-lg">{item.title}</h2>
+                                    <h2 className="text-sm text-gray-500">{item.desc}</h2>
                                 </div>
+
                             ))}
                         </div>
                     </div>
