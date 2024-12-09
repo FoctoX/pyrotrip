@@ -38,9 +38,8 @@ function Header() {
       </Link>
       <button
         onClick={toggleDarkMode}
-        className='h-10 w-10 p-2 rounded-full bg-gray-200 dark:bg-gray-600'
-      >
-        <img className='fill-white' src='/mode.svg'/>
+        className='h-10 w-10 p-2 rounded-full bg-gray-200 dark:bg-gray-600'>
+        <img className='fill-white' alt='toggle-dark-mode' src='/mode.svg'/>
       </button>
     </div>
   );
