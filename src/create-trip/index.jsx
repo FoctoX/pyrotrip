@@ -97,8 +97,9 @@ function CreateTrip() {
                         <div className='grid grid-cols-3 gap-5 mt-5'>
                             {SelectBudgetOptions.map((item) => (
                                 <div key={item.id}
-                                    onClick={() => handleInputChange('budget', item.title)}
+                                    onClick={handleInputChange('budget', item.title)}
                                     role='button'
+                                    onKeyDown={this.handleKeyDown}
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
                             ${formData?.budget == item.title && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
@@ -113,7 +114,7 @@ function CreateTrip() {
                         <div className='grid grid-cols-3 gap-5 mt-5'>
                             {SelectTravelesList.map((item) => (
                                 <div key={item.id}
-                                    onClick={() => handleInputChange('traveler', item.people)}
+                                    onClick={handleInputChange('traveler', item.people)}
                                     role='button'
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
                                     ${formData?.traveler == item.people && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
