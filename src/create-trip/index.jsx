@@ -4,13 +4,11 @@ import { Input } from '@/components/ui/input';
 import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList, SelectVacationPlace } from '@/constants/options';
 import { chatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 import { Link, Route, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function CreateTrip() {
     const navigate = useNavigate();
-    const [place, setPlace] = useState();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState([]);
 
@@ -76,15 +74,8 @@ function CreateTrip() {
                     <div>
                         <h2 className='text-xl my-3 font-medium'>What is your destination of choice?</h2>
                         <Input placeholder={'Ex: Indonesia, Malang'}
-                            onChange={(v) => { setPlace(v.target.value); handleInputChange('location', v.target.value) }}
+                            onChange={(v) => { handleInputChange('location', v.target.value) }}
                         />
-                        {/* <GooglePlacesAutocomplete
-                            apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
-                            selectProps={{
-                                place,
-                                onChange:(v)=>{setPlace(v); handleInputChange('location', v)}
-                            }}
-                        /> */}
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>How many days are you planning your trip?</h2>
@@ -104,9 +95,10 @@ function CreateTrip() {
                     <div>
                         <h2 className='text-xl my-3 font-medium'>How much is your budget?</h2>
                         <div className='grid grid-cols-3 gap-5 mt-5'>
-                            {SelectBudgetOptions.map((item, index) => (
-                                <div key={index}
+                            {SelectBudgetOptions.map((item) => (
+                                <div key={item.id}
                                     onClick={() => handleInputChange('budget', item.title)}
+                                    role='button'
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
                             ${formData?.budget == item.title && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
@@ -119,9 +111,10 @@ function CreateTrip() {
                     <div>
                         <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
                         <div className='grid grid-cols-3 gap-5 mt-5'>
-                            {SelectTravelesList.map((item, index) => (
-                                <div key={index}
+                            {SelectTravelesList.map((item) => (
+                                <div key={item.id}
                                     onClick={() => handleInputChange('traveler', item.people)}
+                                    role='button'
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105
                                     ${formData?.traveler == item.people && 'shadow-lg shadow-gray-500 border-black dark:border-white'}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
@@ -134,9 +127,9 @@ function CreateTrip() {
                     <div>
                         <h2 className='text-xl my-3 font-medium'>What do you prefer about vacation places?</h2>
                         <div className='grid grid-cols-3 gap-5 mt-5'>
-                            {SelectVacationPlace.map((item, index) => (
+                            {SelectVacationPlace.map((item) => (
                                 <div
-                                    key={index}
+                                    key={item.id}
                                     onClick={() => {
                                         const currentSelection = formData?.place?.split(', ').filter(Boolean) || [];
                                         if (currentSelection.includes(item.title)) {
@@ -149,6 +142,7 @@ function CreateTrip() {
                                             handleInputChange('place', updatedSelection.join(', '));
                                         }
                                     }}
+                                    role='button'
                                     className={`p-4 border cursor-pointer rounded-lg transition ease-in-out hover:scale-105 ${formData?.place?.includes(item.title) ? 'shadow-lg shadow-gray-500 border-black dark:border-white' : ''}`}>
                                     <h2 className='text-4xl'>{item.icon}</h2>
                                     <h2 className='font-bold text-lg'>{item.title}</h2>
