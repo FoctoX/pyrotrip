@@ -2,8 +2,6 @@ import React from 'react';
 import InfoSection from './components/InfoSection';
 import Hotels from './components/Hotels';
 import PlacesToVisit from './components/PlacesToVisit';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import Header from '@/components/custom/Header';
 
 const ViewTrip = () => {

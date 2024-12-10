@@ -31,7 +31,7 @@ function Header() {
   };
 
   return (
-    <div className='w-full bg-white dark:bg-zinc-950 dark:shadow-gray-500 p-3 shadow-sm flex justify-between items-center px-5 sticky top-0 z-50'>
+    <div className='w-full bg-white dark:bg-neutral-900 dark:shadow-gray-700 p-3 shadow-sm flex justify-between items-center px-5 sticky top-0 z-50'>
       <Link className='flex items-center' to={'/'}>
         <img className='w-10 h-10' src='/logo.svg' alt='Logo' />
         <p className='font-extrabold text-xl text-black dark:text-white'>PyroTrip</p>

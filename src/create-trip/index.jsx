@@ -94,7 +94,7 @@ function CreateTrip() {
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>How much is your budget?</h2>
-                        <div className="grid grid-cols-3 gap-5 mt-5">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 mt-5">
                             {SelectBudgetOptions.map((item) => (
                                 <div
                                     key={item.id}
@@ -103,7 +103,7 @@ function CreateTrip() {
                                     onClick={() => handleInputChange('budget', item.title)}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' || e.key === ' ') {
-                                            e.preventDefault(); // Prevent space from scrolling
+                                            e.preventDefault();
                                             handleInputChange('budget', item.title);
                                         }
                                     }}
@@ -120,7 +120,7 @@ function CreateTrip() {
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>Who do you plan on traveling with on your next adventure?</h2>
-                        <div className='grid grid-cols-3 gap-5 mt-5'>
+                        <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 mt-5'>
                             {SelectTravelesList.map((item) => (
                                 <div
                                     key={item.id}
@@ -146,7 +146,7 @@ function CreateTrip() {
                     </div>
                     <div>
                         <h2 className='text-xl my-3 font-medium'>What do you prefer about vacation places?</h2>
-                        <div className='grid grid-cols-3 gap-5 mt-5'>
+                        <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 mt-5'>
                             {SelectVacationPlace.map((item) => (
                                 <div
                                     key={item.id}

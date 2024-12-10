@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 function InfoSection({trip}) {
   return (
@@ -17,5 +18,9 @@ function InfoSection({trip}) {
     </div>
   )
 }
+
+InfoSection.propTypes = {
+  trip: PropTypes.string.isRequired
+};
 
 export default InfoSection

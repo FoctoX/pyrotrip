@@ -44,7 +44,7 @@ export const SelectBudgetOptions=[
     },
     {
         id:3,
-        title:'Luxury',
+        title:'Expensive',
         desc:'Dont worry about cost',
         icon:''
     }
