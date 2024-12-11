@@ -1,8 +1,9 @@
 import Header from '@/components/custom/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"  
 import { AI_PROMPT, SelectBudgetOptions, SelectTravelesList, SelectVacationPlace } from '@/constants/options';
-import { chatSession } from '@/service/AIModal';
+import { createChatSession } from '@/service/AIModal';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -27,42 +28,47 @@ function CreateTrip() {
     }, [formData])
 
     const OnGenerateTrip = async () => {
-
-        if (formData?.noOfDays > 5 && !formData?.location || !formData?.budget || !formData.traveler) {
-            toast("Please fill all details")
+        const { analyzingType, location, budget, traveler, noOfDays, place } = formData;
+    
+        if (!analyzingType || !location || !budget || !traveler || !noOfDays || !place) {
+            toast("Please fill all details");
             return;
         }
-
+    
         setLoading(true);
-
+    
         const FINAL_PROMPT = AI_PROMPT
-            .replace('{location}', formData?.location)
-            .replace('{totalDays}', formData?.noOfDays)
-            .replace('{traveler}', formData?.traveler)
-            .replace('{budget}', formData?.budget)
-            .replace('{totalDays}', formData?.noOfDays)
-            .replace('{vacationPlace}', formData?.place)
-
+            .replace('{location}', location)
+            .replace('{totalDays}', noOfDays)
+            .replace('{traveler}', traveler)
+            .replace('{budget}', budget)
+            .replace('{vacationPlace}', place);
+    
         try {
+            // Create a dynamic chat session using the selected analyzingType
+            const chatSession = createChatSession(analyzingType);
+    
             const rawResult = await chatSession.sendMessage(FINAL_PROMPT);
             const responseResult = rawResult.response.text();
-
+    
             let result;
             if (typeof rawResult === "string") {
                 result = JSON.parse(responseResult.response.text());
             } else {
                 result = responseResult;
             }
+    
             localStorage.setItem("tripData", JSON.stringify(result));
             navigate('/view-trip');
-
+    
         } catch (error) {
             console.error("Error generating trip:", error);
             toast("Failed to generate trip");
         } finally {
             setLoading(false);
         }
-    }
+    };
+    
 
     return (
         <div>
@@ -153,11 +159,9 @@ function CreateTrip() {
                                     onClick={() => {
                                         const currentSelection = formData?.place?.split(', ').filter(Boolean) || [];
                                         if (currentSelection.includes(item.title)) {
-                                            // Remove if already selected
                                             const updatedSelection = currentSelection.filter((place) => place !== item.title);
                                             handleInputChange('place', updatedSelection.join(', '));
                                         } else {
-                                            // Add new selection
                                             const updatedSelection = [...currentSelection, item.title];
                                             handleInputChange('place', updatedSelection.join(', '));
                                         }
@@ -170,7 +174,19 @@ function CreateTrip() {
                             ))}
                         </div>
                     </div>
-
+                    <div>
+                        <h2 className='text-xl my-3 font-medium'>What analyzing type do you choose? (Increasing Generate Time)</h2>
+                        <Select onValueChange={(value) => handleInputChange('analyzingType', value)}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Analyzing Type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="gemini-1.5-flash-8b-001">Normal</SelectItem>
+                                <SelectItem value="gemini-1.5-flash-002">Good</SelectItem>
+                                <SelectItem value="gemini-1.5-pro-002">Better</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
                 <div className='my-10 flex justify-end'>
                     <Button className="w-32"
